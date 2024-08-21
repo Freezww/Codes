@@ -75,10 +75,12 @@ public:
     bool swapLines(){
         bool flag = false;
         for(unsigned i = 0; i < order; ++i){
-            for(unsigned j = i + 1; j < order; ++j)
-                if(matriz[j][i] > matriz[i][i]){
-                    swap(matriz[i], matriz[j]);
-                    flag = true;
+            for(unsigned j = 0; j < order; ++j)
+                if(j != i){
+                    if(matriz[j][i] > matriz[i][i]){
+                        swap(matriz[i], matriz[j]);
+                        flag = true;
+                    }
                 }
         }
         return flag;
@@ -164,7 +166,7 @@ int main(){
     do{
         system("clear");
         // Leitura da ordem da matriz
-        cout << "Informe a ordem da matriz: ";
+        cout << "Informe a ordem do sistema: ";
         cin >> order;
 
         // Criacao do objeto
@@ -244,5 +246,3 @@ int main(){
 
     return 0;
 }
-
-//3 10 2 1 7 1 5 1 -8 2 3 10 6 0.05 0.7 -1.6 0.6
