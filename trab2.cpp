@@ -13,6 +13,7 @@
 #include <cmath>
 #include <sstream>
 #include <chrono>
+#include <iomanip>
 
 using namespace std;
 using namespace chrono;
@@ -56,17 +57,22 @@ public:
     }
 
     string matrizToString(){
-        string str = "";
-        char value[10];
+        ostringstream oss;
+        oss << fixed << setprecision(1);  // Define o número de casas decimais e a formatação fixa
+
         for(unsigned i = 0; i < order; ++i){
             for(unsigned j = 0; j < order; ++j){
-                snprintf(value, 10, "%.1f", matriz[i][j]);
-                str += value;
-                str += "  ";
+                // Corrige valores como -0.0
+                double value = matriz[i][j];
+                if (abs(value) < 0.00005) {
+                    value = 0.0;
+                }
+                oss << setw(7) << value;
             }
-            str += "\n";
+            oss << "\n";
         }
-        return str;
+
+        return oss.str();
     }
 
     // Calcula o determinante de uma matriz utilizando o metodo de Gauss com pivotacao parcial
@@ -81,18 +87,19 @@ public:
                 int position;                   // Guarda a posicao do maior elemento da coluna
                 double value = matriz[i][i];    // Utilizada para verificacoes
                 bool flag = false;              // Sinaliza se deve haver troca ou nao de linhas
-                for(short unsigned verify = i + 1; verify < order; ++verify)
+                for(short unsigned verify = i + 1; verify < order; ++verify){
                     if(fabs(matriz[verify][i]) > fabs(value)){
                         position = verify;
                         value = matriz[verify][i];
                         flag = true;
-                        signal *= -1;           // Serve para ver se havera troca de sinal ou nao no resultado do determinante
                     }
+                }
                 // Verifica se a flag sinaliza uma troca de linha
                 if(flag){
                     swap(matriz[i], matriz[position]); // Faz a troca das linhas caso necessario
                     cout << endl << "Troca de linha: L" << i+1 << " com L" << position + 1 << ": " << endl;
                     cout << matrizToString() << endl;
+                    signal *= -1;           // Serve para ver se havera troca de sinal ou nao no resultado do determinante
                 }
                 
                 for(short unsigned j = i + 1; j < order; ++j){
