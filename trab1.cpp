@@ -64,7 +64,7 @@ public:
         result = 1.0;
         int signal = -1;
 
-        for(unsigned i = 2; i <= numTerms; ++i) {
+        for(unsigned i = 1; i <= numTerms; ++i) {
             result += signal * (pow(x, (i * 2)) / fact(i * 2));
             signal *= -1;
         }
@@ -73,6 +73,7 @@ public:
             result *= -1; // Negativa o resultado pois esta fora do intervalo positivo do cosseno
     }
 
+    // Obtem
     long double getResult() const {
         return result;
     }
@@ -142,6 +143,7 @@ int main(){
                 calcCos.getNumTerms() = numTerms;
                 calcCos.calcSeries();
                 cout << string(calcCos);
+                getchar();
                 executeCalculation(calcCos);
                 break;
             case 0:
